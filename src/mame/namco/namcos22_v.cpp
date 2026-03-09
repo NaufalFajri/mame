@@ -1292,9 +1292,13 @@ void namcos22_state::slavesim_handle_bb0003(const s32 *src)
 	m_absolute_priority = src[0x3] >> 16 & 0xffff;
 	m_camera_vx = signed12(src[0x5] >> 16);
 	m_camera_vy = signed12(src[0x5] & 0xffff);
+	float aspect = 1.333333f; // convert 4:3 -> 16:9
+	
 	m_camera_zoom = dspfloat_to_nativefloat(src[0x6]);
-	m_camera_vr = dspfloat_to_nativefloat(src[0x7]) * m_camera_zoom - 0.5f;
-	m_camera_vl = dspfloat_to_nativefloat(src[0x8]) * m_camera_zoom - 0.5f;
+	
+	m_camera_vr = dspfloat_to_nativefloat(src[0x7]) * m_camera_zoom * aspect - 0.5f;
+	m_camera_vl = dspfloat_to_nativefloat(src[0x8]) * m_camera_zoom * aspect - 0.5f;
+	
 	m_camera_vu = dspfloat_to_nativefloat(src[0x9]) * m_camera_zoom - 0.5f;
 	m_camera_vd = dspfloat_to_nativefloat(src[0xa]) * m_camera_zoom - 0.5f;
 
